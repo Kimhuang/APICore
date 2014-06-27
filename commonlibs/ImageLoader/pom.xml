@@ -1,0 +1,197 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>CommonLibs</artifactId>
+		<groupId>com.kim.commonlibs</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>ImageLoader</artifactId>
+	<name>ImageLoader</name>
+	<packaging>jar</packaging>
+	<description>ImageLoader</description>
+
+	<properties>
+		<final.name>${project.name}-v${project.version}.${timestamp}</final.name>
+		<obfuscate.name>${final.name}-obf</obfuscate.name>
+		<java.version>1.6</java.version>
+		<encoding>UTF-8</encoding>
+		<proguard.mapping>mapping.txt</proguard.mapping>
+		<proguard.seeds>seeds.txt</proguard.seeds>
+	</properties>
+
+	<scm>
+		<connection>scm:svn:http://none</connection>
+		<developerConnection>scm:svn:http://none</developerConnection>
+		<url>scm:svn:http://none</url>
+	</scm>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>android</artifactId>
+				<version>4.1.1.4</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>support-v4</artifactId>
+				<version>r7</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>support-v4</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${final.name}</finalName>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>buildnumber-maven-plugin</artifactId>
+					<version>1.3</version>
+					<configuration>
+						<doCheck>false</doCheck>
+						<doUpdate>false</doUpdate>
+						<revisionOnScmFailure />
+						<providerImplementations>
+							<javasvn>javasvn</javasvn>
+						</providerImplementations>
+						<format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
+						<items>
+							<item>timestamp</item>
+						</items>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>create</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.2</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By>${project.groupId}</Built-By>
+								<Copyright>richinfo</Copyright>
+								<Project-name>${project.name}</Project-name>
+								<Project-version>${project.version}</Project-version>
+								<Build-Time>${timestamp}</Build-Time>
+								<Build-Num>${buildNumber}</Build-Num>
+							</manifestEntries>
+						</archive>
+						<skip>false</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<outputFileName>${final.name}.jar</outputFileName>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${encoding}</encoding>
+					</configuration>
+				</plugin>
+				<!-- <plugin> <groupId>com.pyx4me</groupId> <artifactId>proguard-maven-plugin</artifactId> 
+					<version>2.0.4</version> <executions> <execution> <phase>package</phase> 
+					<goals> <goal>proguard</goal> </goals> </execution> </executions> <configuration> 
+					<proguardVersion>4.4</proguardVersion> <obfuscate>true</obfuscate> <proguardInclude>${project.basedir}/proguard.cfg</proguardInclude> 
+					<includeDependency>false</includeDependency> <injar>${final.name}.jar</injar> 
+					<injars>${final.name}.jar</injars> <outjar>${obfuscate.name}.jar</outjar> 
+					<outputDirectory>${project.build.directory}</outputDirectory> <maxMemory>256m</maxMemory> 
+					<options> <options>-printmapping ${project.build.directory}\${proguard.mapping}</options> 
+					<options>-printseeds ${project.build.directory}\${proguard.seeds}</options> 
+					</options> <libs> <lib>${java.home}/lib/rt.jar</lib> </libs> <addMavenDescriptor>false</addMavenDescriptor> 
+					</configuration> <dependencies> <dependency> <groupId>net.sf.proguard</groupId> 
+					<artifactId>proguard</artifactId> <version>4.4</version> </dependency> </dependencies> 
+					</plugin> -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<phase>package</phase>
+							<goals>
+								<goal>javadoc</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
+					<version>2.4</version> <configuration> <archive> <manifest> <mainClass>com.allen.capturewebdata.Main</mainClass> 
+					</manifest> </archive> <finalName>${assembly.name}</finalName> <descriptor> 
+					</descriptor> <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+					</descriptorRefs> <archive> <manifestEntries> <Built-By>${project.groupId}</Built-By> 
+					<Copyright>richinfo</Copyright> <Project-name>${project.name}</Project-name> 
+					<Project-version>${project.version}</Project-version> <Build-Time>${timestamp}</Build-Time> 
+					<Build-Num>${buildNumber}</Build-Num> </manifestEntries> </archive> </configuration> 
+					<executions> <execution> <id>make-assembly</id> <phase>prepare-package</phase> 
+					<goals> <goal>single</goal> </goals> </execution> </executions> </plugin> -->
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				</plugin> -->
+			<!-- <plugin> <groupId>com.pyx4me</groupId> <artifactId>proguard-maven-plugin</artifactId> 
+				</plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
+				</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jxr-plugin</artifactId> 
+				</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
+				</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
+				</plugin> -->
+		</plugins>
+	</build>
+	<!-- <reporting> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+		<artifactId>maven-jxr-plugin</artifactId> <version>2.3</version> <configuration> 
+		<aggregate>true</aggregate> <encoding>UTF-8</encoding> </configuration> </plugin> 
+		<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
+		<version>2.9.1</version> <configuration> <outputDirectory>${project.reporting.outputDirectory}</outputDirectory> 
+		<configLocation>config/sun_checks.xml</configLocation> <configLocation>${project.basedir}/src/main/resources/checkstyle-checker.xml</configLocation> 
+		<enableRSS>true</enableRSS> <configLocation>config/maven_checks.xml</configLocation> 
+		<configLocation>config/turbine_checks.xml</configLocation> <configLocation>config/avalon_checks.xml</configLocation> 
+		</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+		<artifactId>maven-pmd-plugin</artifactId> <version>3.0.1</version> <configuration> 
+		<outputDirectory>${project.reporting.outputDirectory}</outputDirectory> <rulesets> 
+		<ruleset>${project.basedir}/src/main/resources/basic.xml</ruleset> <ruleset>${project.basedir}/src/main/resources/unusedcode.xml</ruleset> 
+		<ruleset>${project.basedir}/src/main/resources/importss.xml</ruleset> <ruleset>${project.basedir}/src/main/resources/braces.xml</ruleset> 
+		<ruleset>${project.basedir}/src/main/resources/naming.xml</ruleset> <ruleset>${project.basedir}/src/main/resources/strings.xml</ruleset> 
+		</rulesets> <aggregate>true</aggregate> </configuration> </plugin> </plugins> 
+		</reporting> -->
+
+</project>
