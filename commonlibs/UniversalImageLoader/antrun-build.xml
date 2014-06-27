@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="UniversalImageLoader-app" basedir=".">
+    
+    <target name="list-activators" description="Extract list of bundle activators from manfest files">
+        <echo message="Extracting bundle activators..." />
+        <script language="javascript">
+            <![CDATA[
+                importClass(java.lang.StringBuilder);
+                importClass(java.io.File);
+                importClass(java.io.FileReader);
+                importClass(java.io.BufferedReader);
+                importClass(java.io.PrintWriter);
+                var separator = project.getProperty("file.separator");
+                var depDirPath = project.getProperty("project.build.directory") + separator + "dependency";
+                var listFile = new File(project.getProperty("activators.list.file"));
+                var writer = new PrintWriter(listFile);
+                // list artifact dirs
+                var depDir = new File(depDirPath);
+                var artifactDirs = depDir.listFiles();
+                for(i = 0;i < artifactDirs.length;i++){
+                    var manifest = new File(artifactDirs[i], "META-INF/MANIFEST.MF");
+                    if(!manifest.exists()){
+		      continue;
+		    }
+                    var bin = new BufferedReader(new FileReader(manifest));
+                    var line, found=false;
+                    var sb = new StringBuilder();
+                    while((line = bin.readLine()) != null){
+                        if(line.startsWith("Bundle-Activator")){
+                            sb.append(line.split(":")[1].trim()); 
+                            //read next lines
+                            while((line = bin.readLine()) != null){
+                                if(line.startsWith(" ")){
+                                    sb.append(line.trim());
+                                } else {
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    bin.close();
+                    if(sb.length() > 0){
+                        writer.println(sb.toString());
+                    }
+                }
+                writer.close();
+            ]]>
+        </script>
+    </target>
+    
+</project>
