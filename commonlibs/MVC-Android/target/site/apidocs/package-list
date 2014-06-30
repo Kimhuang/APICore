@@ -1,0 +1,12 @@
+com.mastergaurav.android
+com.mastergaurav.android.app.command
+com.mastergaurav.android.app.common
+com.mastergaurav.android.app.model
+com.mastergaurav.android.app.model.xml
+com.mastergaurav.android.app.view
+com.mastergaurav.android.common.log
+com.mastergaurav.android.common.view
+com.mastergaurav.android.common.xml
+com.mastergaurav.android.mvc.command
+com.mastergaurav.android.mvc.common
+com.mastergaurav.android.mvc.controller

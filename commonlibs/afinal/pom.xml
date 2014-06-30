@@ -11,6 +11,15 @@
 	<name>afinal</name>
 	<packaging>jar</packaging>
 	<description>afinal</description>
+	
+	<properties>
+		<final.name>${project.name}-v${project.version}.${timestamp}</final.name>
+		<obfuscate.name>${final.name}-obf</obfuscate.name>
+		<java.version>1.6</java.version>
+		<encoding>UTF-8</encoding>
+		<proguard.mapping>mapping.txt</proguard.mapping>
+		<proguard.seeds>seeds.txt</proguard.seeds>
+	</properties>
 
 	<scm>
 		<connection>scm:svn:http://none</connection>
@@ -75,6 +84,17 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<sdk>
+							<platform>19</platform>
+						</sdk>
+					</configuration>
+					<extensions>true</extensions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -152,6 +172,10 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

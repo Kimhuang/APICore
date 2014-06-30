@@ -34,3 +34,11 @@ proguard/
 /commonlibs/ImageLoader/.settings
 /commonlibs/Volley/target
 /commonlibs/Volley/.settings
+/commonlibs/HyperLayout/target
+/commonlibs/HyperLayout/.settings
+/commonlibs/HyperLayout/bin
+/commonlibs/HyperLayout/gen
+/commonlibs/UniversalImageLoader/target
+/commonlibs/UniversalImageLoader/.settings
+/commonlibs/UniversalImageLoader/bin
+/commonlibs/UniversalImageLoader/gen
