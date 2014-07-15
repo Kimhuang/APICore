@@ -19,6 +19,7 @@
 		<module>MVC-Android</module>
 		<module>ViewPagerIndicator</module>
     <module>GPUImage</module>
+    <module>PhotoViewer</module>
   </modules>
 
 	<properties>
