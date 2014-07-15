@@ -46,3 +46,5 @@ proguard/
 commonlibs/MVC-Android/.settings/
 commonlibs/ViewPagerIndicator/.settings/
 commonlibs/ViewPagerIndicator/target/
+commonlibs/GPUImage/.settings/
+commonlibs/GPUImage/target/
