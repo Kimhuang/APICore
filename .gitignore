@@ -42,3 +42,7 @@ proguard/
 /commonlibs/UniversalImageLoader/.settings
 /commonlibs/UniversalImageLoader/bin
 /commonlibs/UniversalImageLoader/gen
+.metadata/
+commonlibs/MVC-Android/.settings/
+commonlibs/ViewPagerIndicator/.settings/
+commonlibs/ViewPagerIndicator/target/

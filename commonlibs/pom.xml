@@ -18,6 +18,7 @@
 		<module>UniversalImageLoader</module>
 		<module>HyperLayout</module>
 		<module>MVC-Android</module>
+		<module>ViewPagerIndicator</module>
 	</modules>
 
 	<properties>
