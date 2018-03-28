@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Integrate With H5</title>
+    <script>
+		document.addEventListener("message", function (e) {
+			//echo
+			//const messageObj = JSON.parse(e.data);
+			//window.postMessage(JSON.stringify(messageObj), "*");
+			const messageFromRN = e.data;
+			try {
+				const {type, value} = JSON.parse(e.data);
+				if (type === "pickPictureResp") {
+					const img = document.getElementById("img");
+					img.src = value;
+				} else {
+					document.getElementById("content").innerHTML += "<br/>" + messageFromRN;
+				}
+			} catch (e) {
+				document.getElementById("content").innerHTML += "<br/>" + messageFromRN;
+			}
+		});
+
+		function sendMessage(message) {
+			if (!message) {
+				message = {message: "hello, world!"};
+			}
+			window.postMessage(JSON.stringify(message), "*");
+			// alert('message:'+JSON.stringify(message))
+		}
+		function selectPicture() {
+			const selectPictureMsg = {
+				type: "pickPicture",
+				value: {
+					pickerType: "camera", //'album
+					crop: true,
+					width: 300,
+					height: 400,
+					base64: true,
+				}
+			};
+			window.postMessage(JSON.stringify(selectPictureMsg), "*");
+		}
+    </script>
+</head>
+<body onload="sendMessage()">
+<div onclick="sendMessage()" style="padding: 10px;border: 1px solid red;border-radius: 4px;margin: 10px">Say Hello to
+    App...
+</div>
+<div onclick="selectPicture()" style="padding: 10px;border: 1px solid red;border-radius: 4px;margin: 10px">Pick
+    Picture
+</div>
+<div id="content" style="padding: 10px;border: 1px solid red;border-radius: 4px;margin: 10px">Message from App:</div>
+<img id="img" src=""/>
+</body>
+</html>
